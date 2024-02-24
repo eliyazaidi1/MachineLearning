@@ -1,0 +1,65 @@
+#Importing necessary libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.axes as ax
+
+df = pd.read_csv('/content/train.csv')
+
+print(df.shape)
+
+df.info()
+
+df.isna().sum()
+
+df = df.dropna()
+
+df.isna().sum()
+
+#Visualising data points and pattern of data
+plt.scatter(df['x'],df['y'])
+
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(df['x'],df['y'],test_size=0.2,random_state=23)
+print(x_train.shape,x_test.shape,y_train.shape,y_test.shape)
+
+from sklearn.linear_model import LinearRegression
+linear_reg = LinearRegression()
+linear_reg.fit(train_input, train_output)
+print(linear_reg.coef_)
+print(linear_reg.intercept_)
+
+y_pred = linear_reg.predict(X_test)
+
+print(X_test,y_test)
+
+print(y_pred,y_test)
+
+linear_reg.predict(x_test.iloc[1].reshape(1,1))
+
+#Visualising bestfit line
+plt.plot(X_test,y_test,'+')
+plt.plot(X_test,y_pred,'*')
+plt.show()
+
+
+#Performance metrics
+from sklearn.metrics import  mean_squared_error, mean_absolute_error, r2_score
+
+# Calculating Mean Squared Error (MSE)
+mse = mean_squared_error(y_test, y_pred)
+
+# Calculating Root Mean Squared Error (RMSE)
+rmse = np.sqrt(mse)
+
+# Calculating Mean Absolute Error (MAE)
+mae = mean_absolute_error(y_test, y_pred)
+
+# Calculating R-squared (R2) score
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error (MSE): {mse:.2f}")
+print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
+print(f"Mean Absolute Error (MAE): {mae:.2f}")
+print(f"R-squared (R2) Score: {r2:.2f}")
